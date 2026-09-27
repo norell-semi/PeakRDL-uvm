@@ -220,7 +220,12 @@ class UVMExporter:
     def _get_inst_name(self, node: Node) -> str:
         """
         Returns the class instance name
+
+        A uvm_reg still requires a uvm_reg_field for its anonymous field, so
+        it is given a generic name rather than repeating the register's name.
         """
+        if isinstance(node, FieldNode) and node.is_anonymous:
+            return "value"
         return node.inst_name
 
 
